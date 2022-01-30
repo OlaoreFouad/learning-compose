@@ -6,4 +6,5 @@
     <string name="lorem_ipsum_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi laoreet finibus ipsum at consequat. Nam vitae quam gravida, mattis diam in, consequat odio. Maecenas eu blandit erat. Cras luctus bibendum porta</string>
     <string name="title_activity_layouts">LayoutsActivity</string>
     <string name="title_activity_layouts_codelab">LayoutsCodelabActivity</string>
+    <string name="title_activity_layouts_list">LayoutsListActivity</string>
 </resources>

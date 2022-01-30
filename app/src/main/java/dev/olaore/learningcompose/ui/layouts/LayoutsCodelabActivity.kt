@@ -37,7 +37,7 @@ class LayoutsCodelabActivity : ComponentActivity() {
 fun LayoutsCodelab() {
     Scaffold(
         topBar = LayoutCodelabTopBar,
-        bottomBar = LayoutsCodelabBottomNav
+        bottomBar = LayoutsCodelabBottomNav,
     ) { innerPadding ->
         BodyContent(
             Modifier
