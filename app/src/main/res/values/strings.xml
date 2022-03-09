@@ -7,4 +7,6 @@
     <string name="title_activity_layouts">LayoutsActivity</string>
     <string name="title_activity_layouts_codelab">LayoutsCodelabActivity</string>
     <string name="title_activity_layouts_list">LayoutsListActivity</string>
+    <string name="title_activity_custom_layouts">CustomLayoutsActivity</string>
+    <string name="title_activity_constraint_layout">ConstraintLayoutActivity</string>
 </resources>
