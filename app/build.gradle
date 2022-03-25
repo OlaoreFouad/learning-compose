@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -45,6 +46,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -62,6 +66,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
 
     implementation("androidx.compose.ui:ui-tooling:1.0.5")
     implementation("androidx.compose.foundation:foundation:1.0.5")
