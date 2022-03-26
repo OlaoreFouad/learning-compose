@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.codelabs.state.todo
+package dev.olaore.learningcompose.ui.state.todo
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility

@@ -16,27 +16,100 @@
 
 package dev.olaore.learningcompose.ui.state.todo
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.olaore.learningcompose.ui.state.util.generateRandomTodoItem
 import kotlin.random.Random
+
+
+@Composable
+fun TodoInputTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    onTextChanged: (String) -> Unit,
+    onImeAction: () -> Unit
+) {
+    TodoInputText(text = text, onTextChange = onTextChanged, modifier, onImeAction)
+}
+
+@Composable
+fun TodoItemInput(
+    onItemCompleted: (TodoItem) -> Unit
+) {
+    val (text, setText) = remember { mutableStateOf("") }
+    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
+    val iconsVisible = text.isNotBlank()
+
+    val submit = {
+        onItemCompleted(TodoItem(text))
+        setText("")
+        setIcon(TodoIcon.Default)
+    }
+
+    Surface {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
+            ) {
+                TodoInputTextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    text,
+                    setText,
+                    onImeAction = submit
+                )
+                TodoEditButton(
+                    onClick = submit,
+                    text = "Add",
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    enabled = text.isNotBlank()
+                )
+            }
+            if (iconsVisible) {
+                AnimatedIconRow(icon = icon, onIconChange = setIcon)
+            } else {
+                Spacer(modifier = Modifier
+                    .height(16.dp)
+                    .fillMaxWidth())
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewTodoItemInput() {
+    TodoItemInput(onItemCompleted = {})
+}
 
 /**
  * Stateless component that is responsible for the entire todo screen.
@@ -52,6 +125,9 @@ fun TodoScreen(
     onRemoveItem: (TodoItem) -> Unit
 ) {
     Column {
+        TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
+            TodoItemInput(onItemCompleted = onAddItem)
+        }
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(top = 8.dp)
