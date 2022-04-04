@@ -59,7 +59,7 @@ fun TodoInputTextField(
 }
 
 @Composable
-fun TodoItemInput(
+fun TodoItemEntryInput(
     onItemCompleted: (TodoItem) -> Unit
 ) {
     val (text, setText) = remember { mutableStateOf("") }
@@ -73,34 +73,55 @@ fun TodoItemInput(
     }
 
     Surface {
-        Column {
-            Row(
+        TodoItemInput(
+            text = text,
+            onTextChange = setText,
+            submit = submit,
+            iconsVisible = iconsVisible,
+            icon = icon,
+            onIconChange = setIcon
+        )
+    }
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    onTextChange: (String) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean,
+    icon: TodoIcon,
+    onIconChange: (TodoIcon) -> Unit
+) {
+    Column {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        ) {
+            TodoInputTextField(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
-            ) {
-                TodoInputTextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp),
-                    text,
-                    setText,
-                    onImeAction = submit
-                )
-                TodoEditButton(
-                    onClick = submit,
-                    text = "Add",
-                    modifier = Modifier.align(Alignment.CenterVertically),
-                    enabled = text.isNotBlank()
-                )
-            }
-            if (iconsVisible) {
-                AnimatedIconRow(icon = icon, onIconChange = setIcon)
-            } else {
-                Spacer(modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp),
+                text,
+                onTextChange,
+                onImeAction = submit
+            )
+            TodoEditButton(
+                onClick = submit,
+                text = "Add",
+                modifier = Modifier.align(Alignment.CenterVertically),
+                enabled = text.isNotBlank()
+            )
+        }
+        if (iconsVisible) {
+            AnimatedIconRow(icon = icon, onIconChange = onIconChange)
+        } else {
+            Spacer(
+                modifier = Modifier
                     .height(16.dp)
-                    .fillMaxWidth())
-            }
+                    .fillMaxWidth()
+            )
         }
     }
 }
@@ -108,7 +129,7 @@ fun TodoItemInput(
 @Preview
 @Composable
 fun PreviewTodoItemInput() {
-    TodoItemInput(onItemCompleted = {})
+    TodoItemEntryInput(onItemCompleted = {})
 }
 
 /**
@@ -126,7 +147,7 @@ fun TodoScreen(
 ) {
     Column {
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemCompleted = onAddItem)
+            TodoItemEntryInput(onItemCompleted = onAddItem)
         }
         LazyColumn(
             modifier = Modifier.weight(1f),

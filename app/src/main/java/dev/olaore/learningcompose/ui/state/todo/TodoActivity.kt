@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import dev.olaore.learningcompose.ui.state.ui.StateCodelabTheme
+import dev.olaore.learningcompose.ui.state.util.generateRandomTodoItem
 
 class TodoActivity : AppCompatActivity() {
 
@@ -45,10 +46,9 @@ class TodoActivity : AppCompatActivity() {
 
 @Composable
 fun TodoActivityScreen(todoViewModel: TodoViewModel) {
-    val items: List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
     TodoScreen(
-        items = items,
-        onAddItem = { todoViewModel.addItem(it) },
-        onRemoveItem = { todoViewModel.removeItem(it) }
+        items = todoViewModel.todoItems,
+        onAddItem = todoViewModel::addItem,
+        onRemoveItem = todoViewModel::removeItem
     )
 }
